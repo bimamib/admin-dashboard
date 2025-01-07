@@ -13,6 +13,7 @@ import {
   CommandEmpty,
   CommandGroup,
   CommandInput,
+  CommandItem,
   CommandList,
 } from "./ui/command";
 
@@ -61,17 +62,26 @@ const StoreSwitcher = ({ className, items = [] }: StoreSwitcherProps) => {
           <ChevronsUpDown className="ml-auto h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
-      {/* <PopoverContent className="w-[200px] p-0">
+      <PopoverContent className="w-[200px] p-0">
         <Command>
           <CommandList>
             <CommandInput placeholder="Cari Toko" />
             <CommandEmpty>Tidak Ada Toko</CommandEmpty>
             <CommandGroup heading="Toko">
-
+              {formattedItems.map((store) => (
+                <CommandItem
+                  key={store.value}
+                  onSelect={() => onStoreSelect(store)}
+                  className="text-sm"
+                >
+                  <StoreIcon className="mr-2 h-4 w-4" />
+                  {store.label}
+                </CommandItem>
+              ))}
             </CommandGroup>
           </CommandList>
         </Command>
-      </PopoverContent> */}
+      </PopoverContent>
     </Popover>
   );
 };
