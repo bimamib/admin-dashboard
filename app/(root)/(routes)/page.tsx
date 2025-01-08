@@ -17,12 +17,7 @@ const SetupPage = () => {
     }
   }, [isOpen, onOpen]);
 
-  return (
-    <div className="p-4">
-      Root Page
-      <UserButton />
-    </div>
-  );
+  return null;
 };
 
 export default SetupPage;
