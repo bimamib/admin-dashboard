@@ -73,6 +73,7 @@ export const BannerForm: React.FC<BannerFormProps> = ({ initialData }) => {
         await axios.post(`/api/${params.storeId}/banners`, data);
       }
       router.refresh();
+      router.push(`/${params.storeId}/banners`);
       toast.success(toastMessage);
     } catch (error) {
       toast.error("Cek kembali data yang diinput");
