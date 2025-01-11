@@ -53,3 +53,25 @@ export async function POST(
     return new NextResponse("Internal error", { status: 500 });
   }
 }
+
+export async function GET(
+  req: Request,
+  { params }: { params: { storeId: string } }
+) {
+  try {
+    if (!params.storeId) {
+      return new NextResponse("Store id URL dibutuhkan");
+    }
+
+    const banner = await db.banner.findMany({
+      where: {
+        storeId: params.storeId,
+      },
+    });
+
+    return NextResponse.json(banner);
+  } catch (error) {
+    console.log("[BANNERS_GET]", error);
+    return new NextResponse("Internal error", { status: 500 });
+  }
+}
