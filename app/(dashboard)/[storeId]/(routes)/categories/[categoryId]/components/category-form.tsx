@@ -17,28 +17,27 @@ import { Heading } from "@/components/ui/heading";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Banner } from "@prisma/client";
+import { Category } from "@prisma/client";
 import { Trash2 } from "lucide-react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { useParams, useRouter } from "next/navigation";
 import { AlertModal } from "@/components/modals/alert-modal";
-import { ApiAlert } from "@/components/ui/api-alert";
 import { useOrigin } from "@/hooks/use-origin";
 import ImageUpload from "@/components/ui/image-upload";
 
-interface BannerFormProps {
-  initialData: Banner | null;
+interface CategoryFormProps {
+  initialData: Category | null;
 }
 
 const formSchema = z.object({
-  label: z.string().min(1),
-  imageUrl: z.string().min(1),
+  name: z.string().min(1),
+  bannerId: z.string().min(1),
 });
 
-type BannerFormValues = z.infer<typeof formSchema>;
+type CategoryFormValues = z.infer<typeof formSchema>;
 
-export const BannerForm: React.FC<BannerFormProps> = ({ initialData }) => {
+export const CategoryForm: React.FC<CategoryFormProps> = ({ initialData }) => {
   const params = useParams();
   const router = useRouter();
   const origin = useOrigin();
@@ -46,22 +45,22 @@ export const BannerForm: React.FC<BannerFormProps> = ({ initialData }) => {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const title = initialData ? "Edit Banner" : "Buat Banner";
-  const description = initialData ? "Edit Banner Toko" : "Buat Banner Toko";
+  const title = initialData ? "Edit Category" : "Buat Category";
+  const description = initialData ? "Edit Category Toko" : "Buat Category Toko";
   const toastMessage = initialData
-    ? "Banner Berhasil di Edit"
-    : "Banner Berhasil diBuat";
-  const action = initialData ? "Simpan Banner" : "Buat Banner";
+    ? "Category Berhasil di Edit"
+    : "Category Berhasil diBuat";
+  const action = initialData ? "Simpan Category" : "Buat Category";
 
-  const form = useForm<BannerFormValues>({
+  const form = useForm<CategoryFormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: initialData || {
-      label: "",
-      imageUrl: "",
+      name: "",
+      bannerId: "",
     },
   });
 
-  const onSubmit = async (data: BannerFormValues) => {
+  const onSubmit = async (data: CategoryFormValues) => {
     try {
       setLoading(true);
       if (initialData) {
@@ -127,34 +126,15 @@ export const BannerForm: React.FC<BannerFormProps> = ({ initialData }) => {
           <div className="grid grid-cols-3 gap-8">
             <FormField
               control={form.control}
-              name="label"
+              name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Label</FormLabel>
+                  <FormLabel>Nama</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder="Label Banner"
+                      placeholder="Nama Kategori"
                       disabled={loading}
                       {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="imageUrl"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Image</FormLabel>
-                  <FormControl>
-                    <ImageUpload
-                      disabled={loading}
-                      onChange={(url) => field.onChange(url)}
-                      onRemove={() => field.onChange("")}
-                      value={field.value ? [field.value] : []}
                     />
                   </FormControl>
                   <FormMessage />

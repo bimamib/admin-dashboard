@@ -1,32 +1,36 @@
 import db from "@/lib/db";
-import { BannerClient } from "./components/client";
-import { BannerColumn } from "./components/columns";
+import { CategoryClient } from "./components/client";
+import { CategoryColumn } from "./components/columns";
 
 import { format } from "date-fns";
 
-const BannersPage = async ({ params }: { params: { storeId: string } }) => {
-  const banners = await db.banner.findMany({
+const CategoriesPage = async ({ params }: { params: { storeId: string } }) => {
+  const categories = await db.category.findMany({
     where: {
       storeId: params.storeId,
+    },
+    include: {
+      banner: true,
     },
     orderBy: {
       createdAt: "desc",
     },
   });
 
-  const formattedBanners: BannerColumn[] = banners.map((item) => ({
+  const formattedCategories: CategoryColumn[] = categories.map((item) => ({
     id: item.id,
-    label: item.label,
+    name: item.name,
+    bannerLabel: item.banner.label,
     createdAt: format(item.createdAt, "MMM do, yyyy"),
   }));
 
   return (
     <div className="flex-col">
       <div className="flex-1 space-y-4 p-8 pt-6">
-        <BannerClient data={formattedBanners} />
+        <CategoryClient data={formattedCategories} />
       </div>
     </div>
   );
 };
 
-export default BannersPage;
+export default CategoriesPage;
