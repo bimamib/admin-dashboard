@@ -264,7 +264,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                   <div className="space-y-2 leading-none">
                     <FormLabel>Featured</FormLabel>
                     <FormDescription>
-                      Produk ini akan muncul di Home Page
+                      Produk ini akan ditampilkan di Home Page
                     </FormDescription>
                   </div>
                 </FormItem>
